@@ -80,9 +80,15 @@ const handleOnUp = e => {
     track.dataset.prevPercentage = track.dataset.percentage;
 };
 
+// Adjusting the handleOnMove function to prevent default scrolling on touch devices without changing animation logic
 const handleOnMove = e => {
     if (track.dataset.mouseDownAt === "0") return;
     
+    // Prevent scrolling on touch devices while dragging
+    if (e.cancelable) {
+        e.preventDefault();
+    }
+
     const currentMousePos = getPosition(e);
     const initialMousePos = parseFloat(track.dataset.mouseDownAt);
     const mouseDelta = currentMousePos - initialMousePos;
@@ -97,10 +103,12 @@ const handleOnMove = e => {
 
         track.dataset.percentage = nextPercentage;
         
+        // Using Web Animations API to animate the track, as originally done
         track.animate({
             transform: `translate(${nextPercentage}%, -50%)`
         }, { duration: 1200, fill: "forwards" });
         
+        // Apply the same animation logic to each image within the track
         for (const image of track.getElementsByClassName("image")) {
             image.animate({
                 objectPosition: `${100 + nextPercentage}% center`
@@ -108,6 +116,10 @@ const handleOnMove = e => {
         }
     }
 };
+
+// Ensuring touch events are handled with preventDefault to avoid scrolling the page
+window.addEventListener('touchmove', handleOnMove, { passive: false });
+
 
 // Add event listeners for both mouse and touch events
 window.addEventListener('mousedown', handleOnDown);
