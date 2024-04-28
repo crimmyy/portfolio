@@ -454,7 +454,7 @@ input[type=checkbox]:checked + label {
 .image-directions {
   position: absolute;
   user-select: none;
-  padding: 6%;
+  padding: 4%;
 }
 
 /* DESIGN PHOTOS */
@@ -626,13 +626,13 @@ input[type=checkbox]:checked + label {
 .about-intro {
   display: flex;
   align-items: center;
-  gap: 60px;
+  gap: 6vw;
   margin-right: 6%;
 }
 
 .about-intro p{
   margin-top: 25%;
-  font-size: 2rem;
+  font-size: 3vw;
 }
 
 
@@ -642,15 +642,17 @@ input[type=checkbox]:checked + label {
   justify-content: center;
   align-items: center;
   gap: 5%;
-  margin-top: 2%;
+  margin-top: 2vh;
   width: 100%;
   margin-bottom: 5%;
 }
 
 .about-text {
+  font-size: 1.8vh;
   grid-column: 2 / 3;
   padding-left: 5%;
   padding-right: 5%;
+  font-weight: 600;
 }
 
 .fish-left, .fish-right {

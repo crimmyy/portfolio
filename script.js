@@ -167,55 +167,57 @@ document.addEventListener("DOMContentLoaded", function() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible'); // Add 'visible' class to start the animation
-          observer.unobserve(entry.target); // Optionally unobserve the element after it becomes visible
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
         }
       });
     }, {
-      threshold: 0.5,  // Trigger when half of the image is visible
-      rootMargin: '0px' // Adjust if you want the animation to start earlier or later
+      threshold: 0.5,
     });
   
     const hiddenImages = document.querySelectorAll('#design-photos img.hidden');
     hiddenImages.forEach(img => {
-      observer.observe(img);  // Start observing each hidden image
+      observer.observe(img);
     });
   });  
 
-//ART PHOTOS HTML/NAV BUTTONS
+//ART/DESIGN HTML/NAV BUTTONS
 document.addEventListener('DOMContentLoaded', () => {
-  const currentFilename = window.location.href.split('/').pop().split('.html')[0];
-  const pageNumber = parseInt(currentFilename.substring(2));
+    // Determine the current type based on the URL
+    const currentFilename = window.location.href.split('/').pop().split('.html')[0];
+    const pageNumber = parseInt(currentFilename.substring(2));
 
-  const navigate = (offset) => {
-      let newPageNumber = pageNumber + offset;
-      if (newPageNumber < 1) newPageNumber = 11;
-      if (newPageNumber > 11) newPageNumber = 1;
-      window.location.href = `ap${newPageNumber}.html`;
-  };
+    const isArtPage = window.location.pathname.includes('ap_htmls');
+    const maxPages = isArtPage ? 11 : 4; // Use 11 for art pages, 4 for design pages
 
-  document.getElementById('prev').addEventListener('click', () => navigate(-1));
-  document.getElementById('next').addEventListener('click', () => navigate(1));
+    const navigate = (offset) => {
+        let newPageNumber = pageNumber + offset;
+        if (newPageNumber < 1) newPageNumber = maxPages;
+        if (newPageNumber > maxPages) newPageNumber = 1;
+        const pagePrefix = isArtPage ? 'ap' : 'dp';
+        window.location.href = `${pagePrefix}${newPageNumber}.html`;
+    };
 
-  document.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowLeft') {
-          navigate(-1);
-      } else if (event.key === 'ArrowRight') {
-          navigate(1);
-      }
-  });
+    document.getElementById('prev').addEventListener('click', () => navigate(-1));
+    document.getElementById('next').addEventListener('click', () => navigate(1));
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') {
+            navigate(-1);
+        } else if (event.key === 'ArrowRight') {
+            navigate(1);
+        }
+    });
 });
+
 
 function vhvw() {
     const artPhotos = document.getElementById('art-photos');
     const imageDirections = document.querySelector('.image-directions');
 
     if (artPhotos) {
-        // Calculate 70% of viewport width and height
         const vh70 = window.innerHeight * 0.7;
         const vw70 = window.innerWidth * 0.7;
-
-        // Set margin-top to the smaller of the two values
         artPhotos.style.marginTop = `${Math.min(vh70, vw70)}px`;
     }
 
@@ -240,7 +242,6 @@ vhvw();
 
 // Adjust styles on window resize
 window.addEventListener('resize', vhvw);
-
 
 //TOP/BOT SCROLL BUTTONS
 const toTop = document.querySelector(".top-scroll");
