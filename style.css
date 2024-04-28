@@ -128,6 +128,10 @@ nav li:first-child{
   color: white;
 }
 
+.dark-theme .sidebar{
+  background-color: rgba(40, 255, 0, 0.5);
+}
+
 .dark-theme .fish-left, .dark-theme .fish-right, .dark-theme .about-gif, 
 .dark-theme .menu-button, .dark-theme .sidebar a:link, .dark-theme .sidebar a:visited, 
 .dark-theme .sidebar a:active, .dark-theme .hamburger-meat2 {
@@ -167,7 +171,7 @@ nav li:first-child{
   background-color: black;
 }
 
-.light-theme .dropdown-content a {
+.light-theme .dropdown-content a, .light-theme .image-directions {
   color: white;
 }
 
@@ -453,31 +457,40 @@ input[type=checkbox]:checked + label {
   padding: 6%;
 }
 
-.track {
-  transition: transform 0.3s ease-out; /* Adjust timing and easing to match the feel you want */
-}
-
 /* DESIGN PHOTOS */
 #design-photos {
-  margin-top: 70vh;
-  margin-left: -46.5vw;
+  margin-top: 20vh;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
-  gap: 4vmin;
-  position: absolute;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4vw;
+  position: relative;
   left: 50%;
-  top: 50%;
-  transform: translate(0%, -50%);
+  transform: translateX(-50%);
   user-select: none;
-  overflow-y: hidden; 
+  overflow-y: hidden;
+  margin-bottom: 10vh;
+  padding: 10vh;
 }
 
 #design-photos img {
-  max-width: 60vmin;
-  max-width: 60vmin;
-  object-fit: cover;
+  width: 40vw;
+  height: 30vw;
+  object-fit:cover;
   object-position: center;
   border-radius: 8px;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
 }
+
+#design-photos img.visible {
+  opacity: 1;
+  transform: translateY(0); /* Move to original position */
+}
+
 
 /* AP HTMLS*/
 .image-gallery {
@@ -638,7 +651,6 @@ input[type=checkbox]:checked + label {
   grid-column: 2 / 3;
   padding-left: 5%;
   padding-right: 5%;
-
 }
 
 .fish-left, .fish-right {

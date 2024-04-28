@@ -69,26 +69,39 @@ const getPosition = (e) => {
 };
 
 const handleOnDown = e => {
+    if (e.touches && e.touches.length > 1) {
+        e.preventDefault();
+        return; // Do not start a drag if multiple touches are detected
+    }
+
     const startPos = getPosition(e);
     startMousePos = startPos.x;
     startYPos = startPos.y;
     track.dataset.mouseDownAt = startMousePos;
-    isDragging = false;
+    isDragging = false; // Reset the dragging state at the start of a new touch
 };
 
 const handleOnUp = e => {
     if (!isDragging && e.target.classList.contains('redirect')) {
         const url = e.target.dataset.url;
         if (url) {
-            window.location.href = url;
+            window.location.href = url;  // Redirect only if there was no dragging
         }
     }
+    isDragging = false; // Reset dragging state after every touch end
     track.dataset.mouseDownAt = "0";
     track.dataset.prevPercentage = track.dataset.percentage;
 };
 
 
+
 const handleOnMove = e => {
+    // Prevent multi-touch gestures from affecting the viewport
+    if (e.touches && e.touches.length > 1) {
+        e.preventDefault();
+        return; // Exit the function if more than one touch is detected
+    }
+
     if (track.dataset.mouseDownAt === "0") return;
 
     const currentPos = getPosition(e);
@@ -98,7 +111,6 @@ const handleOnMove = e => {
     const mouseDelta = currentMousePos - initialMousePos;
     const verticalDelta = currentYPos - startYPos;
 
-    // Check if horizontal movement is greater than vertical movement
     if (Math.abs(mouseDelta) > Math.abs(verticalDelta)) {
         e.preventDefault(); // Prevent scrolling only if it's clearly a horizontal drag
 
@@ -126,6 +138,7 @@ const handleOnMove = e => {
     }
 };
 
+
 // Add event listeners for both mouse and touch events
 window.addEventListener('mousedown', handleOnDown);
 window.addEventListener('mouseup', handleOnUp);
@@ -135,7 +148,7 @@ window.addEventListener('touchstart', handleOnDown);
 window.addEventListener('touchend', handleOnUp);
 window.addEventListener('touchmove', handleOnMove, { passive: false });
 
-//HIDDEN ART PHOTOS ANIMATION
+//HIDDEN ART PHOTOS/DESIGN PHOTOS ANIMATION
 const observer = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
@@ -149,6 +162,25 @@ const observer = new IntersectionObserver((entries, observer) => {
 
 const hiddenImages = document.querySelectorAll('#art-photos .image.hidden');
 hiddenImages.forEach((el) => observer.observe(el));
+
+document.addEventListener("DOMContentLoaded", function() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible'); // Add 'visible' class to start the animation
+          observer.unobserve(entry.target); // Optionally unobserve the element after it becomes visible
+        }
+      });
+    }, {
+      threshold: 0.5,  // Trigger when half of the image is visible
+      rootMargin: '0px' // Adjust if you want the animation to start earlier or later
+    });
+  
+    const hiddenImages = document.querySelectorAll('#design-photos img.hidden');
+    hiddenImages.forEach(img => {
+      observer.observe(img);  // Start observing each hidden image
+    });
+  });  
 
 //ART PHOTOS HTML/NAV BUTTONS
 document.addEventListener('DOMContentLoaded', () => {
