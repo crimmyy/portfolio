@@ -59,12 +59,19 @@ const track = document.getElementById("art-photos");
 let isDragging = false;
 let startMousePos;
 
+let startYPos;
+
 const getPosition = (e) => {
-    return e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+    return {
+        x: e.type.includes('mouse') ? e.clientX : e.touches[0].clientX,
+        y: e.type.includes('mouse') ? e.clientY : e.touches[0].clientY
+    };
 };
 
 const handleOnDown = e => {
-    startMousePos = getPosition(e);
+    const startPos = getPosition(e);
+    startMousePos = startPos.x;
+    startYPos = startPos.y;
     track.dataset.mouseDownAt = startMousePos;
     isDragging = false;
 };
@@ -81,39 +88,40 @@ const handleOnUp = e => {
 };
 
 
-// Adjusting the handleOnMove function to prevent default scrolling on touch devices without changing animation logic
 const handleOnMove = e => {
     if (track.dataset.mouseDownAt === "0") return;
-    
-    // Prevent scrolling on touch devices while dragging
-    if (e.cancelable) {
-        e.preventDefault();
-    }
 
-    const currentMousePos = getPosition(e);
+    const currentPos = getPosition(e);
+    const currentMousePos = currentPos.x;
+    const currentYPos = currentPos.y;
     const initialMousePos = parseFloat(track.dataset.mouseDownAt);
     const mouseDelta = currentMousePos - initialMousePos;
+    const verticalDelta = currentYPos - startYPos;
 
-    if (Math.abs(mouseDelta) > 5) {
-        isDragging = true;
-        const maxDelta = window.innerWidth / 2;
-        const percentage = (mouseDelta / maxDelta) * 100;
+    // Check if horizontal movement is greater than vertical movement
+    if (Math.abs(mouseDelta) > Math.abs(verticalDelta)) {
+        e.preventDefault(); // Prevent scrolling only if it's clearly a horizontal drag
 
-        let nextPercentageUnconstrained = parseFloat(track.dataset.prevPercentage) + percentage;
-        let nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -280);
+        if (Math.abs(mouseDelta) > 5) {
+            isDragging = true;
 
-        track.dataset.percentage = nextPercentage;
-        
-        // Using Web Animations API to animate the track, as originally done
-        track.animate({
-            transform: `translate(${nextPercentage}%, -50%)`
-        }, { duration: 1200, fill: "forwards" });
-        
-        // Apply the same animation logic to each image within the track
-        for (const image of track.getElementsByClassName("image")) {
-            image.animate({
-                objectPosition: `${100 + (nextPercentage/3)}% center`
+            const maxDelta = window.innerWidth / 2;
+            const percentage = (mouseDelta / maxDelta) * 100;
+
+            let nextPercentageUnconstrained = parseFloat(track.dataset.prevPercentage) + percentage;
+            let nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -280);
+
+            track.dataset.percentage = nextPercentage;
+
+            track.animate({
+                transform: `translate(${nextPercentage}%, -50%)`
             }, { duration: 1200, fill: "forwards" });
+
+            for (const image of track.getElementsByClassName("image")) {
+                image.animate({
+                    objectPosition: `${100 + (nextPercentage/3)}% center`
+                }, { duration: 1200, fill: "forwards" });
+            }
         }
     }
 };

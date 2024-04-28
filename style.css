@@ -453,6 +453,10 @@ input[type=checkbox]:checked + label {
   padding: 6%;
 }
 
+.track {
+  transition: transform 0.3s ease-out; /* Adjust timing and easing to match the feel you want */
+}
+
 /* DESIGN PHOTOS */
 #design-photos {
   margin-top: 70vh;
