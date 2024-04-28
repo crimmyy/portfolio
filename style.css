@@ -242,8 +242,8 @@ input {
 
 /* TOGGLE BUTTON */
 label {
-  width: 100px;
-  height: 50px;
+  width: 10vw;
+  height: 5vw;
   border-radius: 999px;
   background: #F3F3F3;
   box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.05) inset;
@@ -252,8 +252,8 @@ label {
 }
 
 .circle {
-  width: 40px;
-  height: 40px;
+  width: 4vw;
+  height: 4vw;
   border-radius: 50%;
   background: white;
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.05), -10px -10px 30px rgba(0, 0, 0, 0.05) inset;
@@ -268,7 +268,7 @@ label {
 }
 
 .toggle-image {
-  width: 25px;
+  width: 2.5vw;
   transition: opacity 0.3s ease;
   opacity: 1;
   position: absolute;
@@ -336,12 +336,11 @@ input[type=checkbox]:checked + label {
   display: flex;
   flex-direction: column;
   color: #28ff00;
-  font-size: 36px;
+  font-size: 3.5vw;
   gap: 1.5vh;
   max-width: 1000px; 
   margin-bottom: 25vh;
   user-select: none;
-  
 }
 
 .introduction .about {
@@ -352,7 +351,7 @@ input[type=checkbox]:checked + label {
 
 .introduction .details {
   margin-top: 1vh;
-  font-size: 24px;
+  font-size: 2.5vw;
   font-weight: 600;
   padding: 0 10%;
   text-align: left;
@@ -360,7 +359,7 @@ input[type=checkbox]:checked + label {
 }
 
 .introduction .details-two {
-  font-size: 19px;
+  font-size: 2vw;
   padding: 0 10%;
   text-align: left;
   color: white;
@@ -402,7 +401,7 @@ input[type=checkbox]:checked + label {
   gap: 4vmin;
   position: absolute;
   left: 50%;
-  top: 45vw;
+  top: 50%;
   transform: translate(0%, -50%);
   user-select: none;
   width: 100vw;

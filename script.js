@@ -117,8 +117,6 @@ const handleOnMove = e => {
     }
 };
 
-// Ensuring touch events are handled with preventDefault to avoid scrolling the page
-window.addEventListener('touchmove', handleOnMove, { passive: false });
 
 
 // Add event listeners for both mouse and touch events
