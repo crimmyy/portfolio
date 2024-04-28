@@ -80,6 +80,7 @@ const handleOnUp = e => {
     track.dataset.prevPercentage = track.dataset.percentage;
 };
 
+
 // Adjusting the handleOnMove function to prevent default scrolling on touch devices without changing animation logic
 const handleOnMove = e => {
     if (track.dataset.mouseDownAt === "0") return;
@@ -99,7 +100,7 @@ const handleOnMove = e => {
         const percentage = (mouseDelta / maxDelta) * 100;
 
         let nextPercentageUnconstrained = parseFloat(track.dataset.prevPercentage) + percentage;
-        let nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -100);
+        let nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -280);
 
         track.dataset.percentage = nextPercentage;
         
@@ -111,13 +112,11 @@ const handleOnMove = e => {
         // Apply the same animation logic to each image within the track
         for (const image of track.getElementsByClassName("image")) {
             image.animate({
-                objectPosition: `${100 + nextPercentage}% center`
+                objectPosition: `${100 + (nextPercentage/3)}% center`
             }, { duration: 1200, fill: "forwards" });
         }
     }
 };
-
-
 
 // Add event listeners for both mouse and touch events
 window.addEventListener('mousedown', handleOnDown);
@@ -166,6 +165,42 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   });
 });
+
+function vhvw() {
+    const artPhotos = document.getElementById('art-photos');
+    const imageDirections = document.querySelector('.image-directions');
+
+    if (artPhotos) {
+        // Calculate 70% of viewport width and height
+        const vh70 = window.innerHeight * 0.7;
+        const vw70 = window.innerWidth * 0.7;
+
+        // Set margin-top to the smaller of the two values
+        artPhotos.style.marginTop = `${Math.min(vh70, vw70)}px`;
+    }
+
+    if (imageDirections) {
+        // Calculate 155% of viewport width and height
+        const vh155 = window.innerHeight * 1.55;
+        const vw155 = window.innerWidth * 1.8;
+
+        // Determine the smaller of the two and check if vh is favored
+        let topValue = Math.min(vh155, vw155);
+
+        // Set top to the calculated value
+        imageDirections.style.top = `${topValue}px`;
+
+        // Adjust font-size based on viewport width
+        imageDirections.style.fontSize = `${window.innerWidth * 0.01}px`; // Equivalent to 1vw
+    }
+}
+
+// Initial adjustment when the page loads
+vhvw();
+
+// Adjust styles on window resize
+window.addEventListener('resize', vhvw);
+
 
 //TOP/BOT SCROLL BUTTONS
 const toTop = document.querySelector(".top-scroll");

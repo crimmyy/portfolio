@@ -19,15 +19,32 @@
     <header>
         <a class="loco" href="../index.html">Crim.</a>
         <nav>
-            <a href="../about.html" class="select">About</a>
-            <div class="dropdown select">
-                <a>Contact</a>
-                <div class="dropdown-content">
-                    <a href="mailto:aidanhon@andrew.cmu.edu">Email</a>
-                    <a href="../root/AidanResume2024.pdf">Resume</a>
-                    <a href="https://www.linkedin.com/in/aidan-hong-43747824a/">LinkedIn</a>
+            <div class="nav-container">
+                <div class="main-nav-items">
+                    <a href="about.html" class="select">About</a>
+                    <div class="dropdown select">
+                        <a>Contact</a>
+                        <div class="dropdown-content">
+                            <a href="mailto:aidanhon@andrew.cmu.edu">Email</a>
+                            <a href="root/AidanResume2024.pdf">Resume</a>
+                            <a href="https://www.linkedin.com/in/aidan-hong-43747824a/">LinkedIn</a>
+                        </div>
+                    </div>
+                </div>
+                <input type="checkbox" id="nav-toggle" class="nav-checkbox">
+                <div class="menu-button" onclick="showSidebar()">
+                    <img class="hamburger-meat" src="../root/svg_toggle_photos/hamburger.png">
                 </div>
             </div>
+            <ul class="sidebar">
+                <li onclick="hideSidebar()">
+                    <img class="hamburger-meat2" src="../root/svg_toggle_photos/x.png">
+                </li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="mailto:aidanhon@andrew.cmu.edu">Email</a></li>
+                <li><a href="../root/AidanResume2024.pdf">Resume</a></li>
+                <li><a href="https://www.linkedin.com/in/aidan-hong-43747824a/">LinkedIn</a></li>
+            </ul>
         </nav>
     </header>
     <main>
