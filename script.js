@@ -44,14 +44,28 @@ document.addEventListener('DOMContentLoaded', () => {
     updateTheme();
 });
 
+// HAMBURGER MENU
+function showSidebar(){
+    const sidebar = document.querySelector('.sidebar')
+    sidebar.style.display = 'flex'
+  }
+  function hideSidebar(){
+    const sidebar = document.querySelector('.sidebar')
+    sidebar.style.display = 'none'
+  }
+
 // ART PHOTOS CLICK DRAG/ REDIRECT 
 const track = document.getElementById("art-photos");
 let isDragging = false;
 let startMousePos;
 
+const getPosition = (e) => {
+    return e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+};
+
 const handleOnDown = e => {
-    startMousePos = e.clientX;
-    track.dataset.mouseDownAt = e.clientX;
+    startMousePos = getPosition(e);
+    track.dataset.mouseDownAt = startMousePos;
     isDragging = false;
 };
 
@@ -66,38 +80,55 @@ const handleOnUp = e => {
     track.dataset.prevPercentage = track.dataset.percentage;
 };
 
+// Adjusting the handleOnMove function to prevent default scrolling on touch devices without changing animation logic
 const handleOnMove = e => {
-  if (track.dataset.mouseDownAt === "0") return;
-  
-  const currentMousePos = e.clientX;
-  const initialMousePos = parseFloat(track.dataset.mouseDownAt);
-  const mouseDelta = currentMousePos - initialMousePos;
+    if (track.dataset.mouseDownAt === "0") return;
+    
+    // Prevent scrolling on touch devices while dragging
+    if (e.cancelable) {
+        e.preventDefault();
+    }
 
-  if (Math.abs(mouseDelta) > 5) {
-      isDragging = true;
-      const maxDelta = window.innerWidth / 2;
-      const percentage = (mouseDelta / maxDelta) * 100;
+    const currentMousePos = getPosition(e);
+    const initialMousePos = parseFloat(track.dataset.mouseDownAt);
+    const mouseDelta = currentMousePos - initialMousePos;
 
-      let nextPercentageUnconstrained = parseFloat(track.dataset.prevPercentage) + percentage;
-      let nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -100);
+    if (Math.abs(mouseDelta) > 5) {
+        isDragging = true;
+        const maxDelta = window.innerWidth / 2;
+        const percentage = (mouseDelta / maxDelta) * 100;
 
-      track.dataset.percentage = nextPercentage;
-      
-      track.animate({
-          transform: `translate(${nextPercentage}%, -50%)`
-      }, { duration: 1200, fill: "forwards" });
-      
-      for (const image of track.getElementsByClassName("image")) {
-          image.animate({
-              objectPosition: `${100 + nextPercentage}% center`
-          }, { duration: 1200, fill: "forwards" });
-      }
-  }
+        let nextPercentageUnconstrained = parseFloat(track.dataset.prevPercentage) + percentage;
+        let nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -100);
+
+        track.dataset.percentage = nextPercentage;
+        
+        // Using Web Animations API to animate the track, as originally done
+        track.animate({
+            transform: `translate(${nextPercentage}%, -50%)`
+        }, { duration: 1200, fill: "forwards" });
+        
+        // Apply the same animation logic to each image within the track
+        for (const image of track.getElementsByClassName("image")) {
+            image.animate({
+                objectPosition: `${100 + nextPercentage}% center`
+            }, { duration: 1200, fill: "forwards" });
+        }
+    }
 };
 
+// Ensuring touch events are handled with preventDefault to avoid scrolling the page
+window.addEventListener('touchmove', handleOnMove, { passive: false });
+
+
+// Add event listeners for both mouse and touch events
 window.addEventListener('mousedown', handleOnDown);
 window.addEventListener('mouseup', handleOnUp);
 window.addEventListener('mousemove', handleOnMove);
+
+window.addEventListener('touchstart', handleOnDown);
+window.addEventListener('touchend', handleOnUp);
+window.addEventListener('touchmove', handleOnMove, { passive: false });
 
 //HIDDEN ART PHOTOS ANIMATION
 const observer = new IntersectionObserver((entries, observer) => {

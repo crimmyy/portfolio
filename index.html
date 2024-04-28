@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="overflowx">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>crimmyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy</title>
@@ -24,22 +25,47 @@
     <header>
         <a class="loco" href="index.html">Crim.</a>
         <nav>
-            <a href="about.html" class="select">About</a>
-            <div class="dropdown select">
-                <a>Contact</a>
-                <div class="dropdown-content">
-                    <a href="mailto:aidanhon@andrew.cmu.edu">Email</a>
-                    <a href="root/AidanResume2024.pdf">Resume</a>
-                    <a href="https://www.linkedin.com/in/aidan-hong-43747824a/">LinkedIn</a>
+            <div class="nav-container">
+                <div class="main-nav-items">
+                    <a href="about.html" class="select">About</a>
+                    <div class="dropdown select">
+                        <a>Contact</a>
+                        <div class="dropdown-content">
+                            <a href="mailto:aidanhon@andrew.cmu.edu">Email</a>
+                            <a href="root/AidanResume2024.pdf">Resume</a>
+                            <a href="https://www.linkedin.com/in/aidan-hong-43747824a/">LinkedIn</a>
+                        </div>
+                    </div>
+                </div>
+                <input type="checkbox" id="nav-toggle" class="nav-checkbox">
+                <label for="nav-toggle" class="nav-toggle-label">
+                    <div class="circle">
+                        <img src="root/svg_toggle_photos/art_dark.svg" class="toggle-image art-dark">
+                        <img src="root/svg_toggle_photos/design_light.svg" class="toggle-image design-dark">
+                    </div>
+                </label>
+                <div class="menu-button" onclick="showSidebar()">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 0 960 960" width="26">
+                        <path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/>
+                    </svg>
                 </div>
             </div>
-            <input type="checkbox" id="nav-toggle">
-            <label for="nav-toggle" id="nav-toggle-label" class="nav-toggle">
-                <div class="circle"> 
-                    <img src="root/svg_toggle_photos/art_dark.svg" class="toggle-image art-dark">
-                    <img src="root/svg_toggle_photos/design_light.svg" class="toggle-image design-dark">
-                </div>
-            </label>
+            <ul class="sidebar">
+                <li onclick="hideSidebar()">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 0 960 960" width="26">
+                        <path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/>
+                    </svg>
+                </li>
+                <li><a href="about.html">About</a></li>
+                <li class="dropdown">
+                    <a>Contact</a>
+                    <div class="dropdown-content">
+                        <a href="mailto:aidanhon@andrew.cmu.edu">Email</a>
+                        <a href="root/AidanResume2024.pdf">Resume</a>
+                        <a href="https://www.linkedin.com/in/aidan-hong-43747824a/">LinkedIn</a>
+                    </div>
+                </li>
+            </ul>
         </nav>
     </header>
     <main>

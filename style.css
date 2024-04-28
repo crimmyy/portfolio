@@ -8,10 +8,10 @@ body, html {
   margin: 0;
   padding: 0;
   height: 100%;
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: column;
-  
+  -webkit-overflow-scrolling: touch;
 }
 
 main {
@@ -37,6 +37,67 @@ header {
   overflow-x: hidden;
 }
 
+/* MMMMM HAMBURGER MENU */
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-container .main-nav-items {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3vh;
+  margin-right: 3vh;
+}
+
+nav ul{
+ list-style: none;
+ display: flex;
+}
+
+nav li:first-child{
+ margin-right: auto;
+}
+
+.sidebar{
+ position: fixed;
+ top: 0;
+ right: 0;
+ height: 100vh;
+ width: 250px;
+ background-color: rgba(255, 255, 255, 0.15);
+ backdrop-filter: blur(12px);
+ box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+ list-style: none;
+ display: none;
+ flex-direction: column;
+ align-items: flex-start;
+ justify-content: flex-start;
+}
+
+.menu-button{
+ display: none;
+ padding-left: 2vh;
+ padding-right: 1vh;
+}
+
+@media (max-width: 800px) {
+  .nav-container .main-nav-items {
+      display: none;
+  }
+  .menu-button {
+      display: block;
+  }
+}
+
+@media (max-width: 400px) {
+    .sidebar {
+        width: 100%;
+    }
+}
+
 /* ART/DESIGN TOGGLE SWITCH */
 .invisible {
   display: none;
@@ -51,7 +112,7 @@ header {
   color: white;
 }
 
-.dark-theme .fish-left, .dark-theme .fish-right, .dark-theme .about-gif {
+.dark-theme .fish-left, .dark-theme .fish-right, .dark-theme .about-gif, .dark-theme .menu-button {
   filter: invert(100%);
 }
 
@@ -96,8 +157,6 @@ header {
   background-color: #d2650b;
   color: black;
 }
-
-
 
 /* HEADER */
 header nav {
@@ -264,7 +323,7 @@ input[type=checkbox]:checked + label {
   height: 60px;
   width: 80px;
   position: absolute;
-  transform: translateY(100px);
+  transform: translateY(20vh);
 }
 
 .bot-scroll.active {
@@ -343,9 +402,10 @@ input[type=checkbox]:checked + label {
   gap: 4vmin;
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 45vw;
   transform: translate(0%, -50%);
   user-select: none;
+  width: 100vw;
 }
 
 #art-photos > img {
