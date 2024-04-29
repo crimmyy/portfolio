@@ -1,3 +1,4 @@
+/* THE MAIN JIZZ */
 * {
   box-sizing: border-box;
   transition: 0.3s;
@@ -123,6 +124,7 @@ nav li:first-child{
   display: block;
 }
 
+/* LIGHT/DARK TOGGLE SWITCH */
 .dark-theme {
   background-color: black;
   color: white;
@@ -241,6 +243,7 @@ input {
   transition: opacity 0.3s ease, transform 0.3s ease-out;
   user-select: none;
   overflow-y: hidden;
+  z-index: 1000;
 }
 
 .dropdown-content a {
@@ -251,7 +254,7 @@ input {
 }
 
 .dropdown-content a:hover {
-  background-color: #d2650b;
+  background-color: #28ff00;
   color: white;
 }
 
@@ -358,7 +361,6 @@ input[type=checkbox]:checked + label {
   display: flex;
   flex-direction: column;
   color: #28ff00;
-  font-size: 36px;
   font-size: 3vw;
   gap: 1.5vh;
   max-width: 75vw; 
@@ -488,7 +490,7 @@ input[type=checkbox]:checked + label {
 
 #design-photos img.visible {
   opacity: 1;
-  transform: translateY(0); /* Move to original position */
+  transform: translateY(0);
 }
 
 #design-photo-one {

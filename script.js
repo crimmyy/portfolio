@@ -54,100 +54,94 @@ function showSidebar(){
     sidebar.style.display = 'none'
   }
 
-// ART PHOTOS CLICK DRAG/ REDIRECT 
-const track = document.getElementById("art-photos");
-let isDragging = false;
-let startMousePos;
+//   ART PHOTOS DRAG/REDIRECT
+  const track = document.getElementById("art-photos");
+  let isDragging = false;
+  let startMousePos;
+  let startYPos;
+  let prevPercentage = 0;
+  
+  const getPosition = (e) => {
+      return {
+          x: e.type.includes('mouse') ? e.clientX : e.touches[0].clientX,
+          y: e.type.includes('mouse') ? e.clientY : e.touches[0].clientY
+      };
+  };
+  
+  const handleOnDown = e => {
+      if (e.touches && e.touches.length > 1) {
+          e.preventDefault();
+          return;
+      }
+  
+      const startPos = getPosition(e);
+      startMousePos = startPos.x;
+      startYPos = startPos.y;
+      track.dataset.mouseDownAt = startMousePos;
+      isDragging = false;
+      prevPercentage = parseFloat(track.dataset.percentage) || 0;
+  };
+  
+  const handleOnUp = e => {
+      if (!isDragging && e.target.classList.contains('redirect')) {
+          const url = e.target.dataset.url;
+          if (url) {
+              window.location.href = url;
+          }
+      }
+      track.dataset.prevPercentage = prevPercentage.toString();
+      track.dataset.mouseDownAt = "0";
+      isDragging = false;
+  };
+  
+  const handleOnMove = e => {
+      if (e.touches && e.touches.length > 1) {
+          e.preventDefault();
+          return;
+      }
+  
+      if (track.dataset.mouseDownAt === "0") return;
+  
+      const currentPos = getPosition(e);
+      const currentMousePos = currentPos.x;
+      const mouseDelta = currentMousePos - startMousePos;
+      const verticalDelta = currentPos.y - startYPos;
+  
+      if (Math.abs(mouseDelta) > Math.abs(verticalDelta)) {
+          e.preventDefault();
+  
+          if (Math.abs(mouseDelta) > 5) {
+              isDragging = true;
+              const maxDelta = window.innerWidth;
+              const percentage = (mouseDelta / maxDelta) * 20;
+              let nextPercentage = Math.max(Math.min(prevPercentage + percentage, 0), -280);
+              
 
-let startYPos;
-
-const getPosition = (e) => {
-    return {
-        x: e.type.includes('mouse') ? e.clientX : e.touches[0].clientX,
-        y: e.type.includes('mouse') ? e.clientY : e.touches[0].clientY
-    };
-};
-
-const handleOnDown = e => {
-    if (e.touches && e.touches.length > 1) {
-        e.preventDefault();
-        return; // Do not start a drag if multiple touches are detected
-    }
-
-    const startPos = getPosition(e);
-    startMousePos = startPos.x;
-    startYPos = startPos.y;
-    track.dataset.mouseDownAt = startMousePos;
-    isDragging = false; // Reset the dragging state at the start of a new touch
-};
-
-const handleOnUp = e => {
-    if (!isDragging && e.target.classList.contains('redirect')) {
-        const url = e.target.dataset.url;
-        if (url) {
-            window.location.href = url;  // Redirect only if there was no dragging
-        }
-    }
-    isDragging = false; // Reset dragging state after every touch end
-    track.dataset.mouseDownAt = "0";
-    track.dataset.prevPercentage = track.dataset.percentage;
-};
-
-
-
-const handleOnMove = e => {
-    // Prevent multi-touch gestures from affecting the viewport
-    if (e.touches && e.touches.length > 1) {
-        e.preventDefault();
-        return; // Exit the function if more than one touch is detected
-    }
-
-    if (track.dataset.mouseDownAt === "0") return;
-
-    const currentPos = getPosition(e);
-    const currentMousePos = currentPos.x;
-    const currentYPos = currentPos.y;
-    const initialMousePos = parseFloat(track.dataset.mouseDownAt);
-    const mouseDelta = currentMousePos - initialMousePos;
-    const verticalDelta = currentYPos - startYPos;
-
-    if (Math.abs(mouseDelta) > Math.abs(verticalDelta)) {
-        e.preventDefault(); // Prevent scrolling only if it's clearly a horizontal drag
-
-        if (Math.abs(mouseDelta) > 5) {
-            isDragging = true;
-
-            const maxDelta = window.innerWidth / 2;
-            const percentage = (mouseDelta / maxDelta) * 100;
-
-            let nextPercentageUnconstrained = parseFloat(track.dataset.prevPercentage) + percentage;
-            let nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -280);
-
-            track.dataset.percentage = nextPercentage;
-
-            track.animate({
-                transform: `translate(${nextPercentage}%, -50%)`
-            }, { duration: 1200, fill: "forwards" });
-
-            for (const image of track.getElementsByClassName("image")) {
-                image.animate({
-                    objectPosition: `${100 + (nextPercentage/3)}% center`
-                }, { duration: 1200, fill: "forwards" });
-            }
-        }
-    }
-};
-
-
-// Add event listeners for both mouse and touch events
-window.addEventListener('mousedown', handleOnDown);
-window.addEventListener('mouseup', handleOnUp);
-window.addEventListener('mousemove', handleOnMove);
-
-window.addEventListener('touchstart', handleOnDown);
-window.addEventListener('touchend', handleOnUp);
-window.addEventListener('touchmove', handleOnMove, { passive: false });
-
+  
+              track.dataset.percentage = nextPercentage.toString();
+              prevPercentage = nextPercentage;
+  
+              track.animate({
+                  transform: `translate(${nextPercentage}%, -50%)`
+              }, { duration: 1200, fill: "forwards" });
+  
+              for (const image of track.getElementsByClassName("image")) {
+                  image.animate({
+                      objectPosition: `${100 + (nextPercentage/3)}% center`
+                  }, { duration: 1200, fill: "forwards" });
+              }
+          }
+      }
+  };
+  
+  window.addEventListener('mousedown', handleOnDown);
+  window.addEventListener('mouseup', handleOnUp);
+  window.addEventListener('mousemove', handleOnMove);
+  
+  window.addEventListener('touchstart', handleOnDown);
+  window.addEventListener('touchend', handleOnUp);
+  window.addEventListener('touchmove', handleOnMove, { passive: false });
+  
 //HIDDEN ART PHOTOS/DESIGN PHOTOS ANIMATION
 const observer = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry, index) => {
@@ -210,7 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
 function vhvw() {
     const artPhotos = document.getElementById('art-photos');
     const imageDirections = document.querySelector('.image-directions');
@@ -232,11 +225,8 @@ function vhvw() {
         imageDirections.style.fontSize = `${window.innerWidth * 0.01}px`; // Equivalent to 1vw
     }
 }
-
-// Initial adjustment when the page loads
 vhvw();
 
-// Adjust styles on window resize
 window.addEventListener('resize', vhvw);
 
 //TOP/BOT SCROLL BUTTONS

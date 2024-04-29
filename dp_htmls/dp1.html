@@ -19,15 +19,31 @@
     <header>
         <a class="loco" href="../index.html">Crim.</a>
         <nav>
-            <a href="../about.html" class="select">About</a>
-            <div class="dropdown select">
-                <a>Contact</a>
-                <div class="dropdown-content">
-                    <a href="mailto:aidanhon@andrew.cmu.edu">Email</a>
-                    <a href="../root/AidanResume2024.pdf">Resume</a>
-                    <a href="https://www.linkedin.com/in/aidan-hong-43747824a/">LinkedIn</a>
+            <div class="nav-container">
+                <div class="main-nav-items">
+                    <a href="about.html" class="select">About</a>
+                    <div class="dropdown select">
+                        <a>Contact</a>
+                        <div class="dropdown-content">
+                            <a href="mailto:aidanhon@andrew.cmu.edu">Email</a>
+                            <a href="root/AidanResume2024.pdf">Resume</a>
+                            <a href="https://www.linkedin.com/in/aidan-hong-43747824a/">LinkedIn</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-button" onclick="showSidebar()">
+                    <img class="hamburger-meat" src="../root/svg_toggle_photos/hamburger.png" alt="hamburger dropdown">
                 </div>
             </div>
+            <ul class="sidebar">
+                <li onclick="hideSidebar()">
+                    <img class="hamburger-meat2" src="../root/svg_toggle_photos/x.png" alt="hamburger dropdown exit">
+                </li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="mailto:aidanhon@andrew.cmu.edu">Email</a></li>
+                <li><a href="../root/AidanResume2024.pdf">Resume</a></li>
+                <li><a href="https://www.linkedin.com/in/aidan-hong-43747824a/">LinkedIn</a></li>
+            </ul>
         </nav>
     </header>
     <main>
@@ -45,7 +61,7 @@
             </div>
             <div class="description">
                 <h1>Inclusive S&P</h1>
-                <p><strong>Description:</strong> What are the risks and barriers faced by homeless individuals, and how do they interact with service providers across various lifeline activities, specifically with regard to digital S&P? 
+                <p>What are the risks and barriers faced by homeless individuals, and how do they interact with service providers across various lifeline activities, specifically with regard to digital S&P? 
                     Goal: Develop some toolkits for public service providers to help them protect digital S&P for the homeless.</p>
             </div>
         </div>
@@ -54,7 +70,7 @@
         </div>
     </main>
     <footer>
-        <img src="../root/gif_arrow/icons8-double-down.gif" class="top-scroll"></img> 
+        <img src="../root/gif_arrow/icons8-double-down.gif" class="top-scroll" alt="top scroller gif" alt="video of gameplay experience, player walking through bouncing objects and jumping into sleeping giant"></img> 
     </footer> 
 </body>
 </html>
