@@ -644,7 +644,6 @@ input[type=checkbox]:checked + label {
   font-size: 3vw;
 }
 
-
 .content-area {
   display: grid;
   grid-template-columns: auto 60% auto;

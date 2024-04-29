@@ -116,8 +116,6 @@ function showSidebar(){
               const percentage = (mouseDelta / maxDelta) * 20;
               let nextPercentage = Math.max(Math.min(prevPercentage + percentage, 0), -280);
               
-
-  
               track.dataset.percentage = nextPercentage.toString();
               prevPercentage = nextPercentage;
   
@@ -177,12 +175,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 //ART/DESIGN HTML/NAV BUTTONS
 document.addEventListener('DOMContentLoaded', () => {
-    // Determine the current type based on the URL
     const currentFilename = window.location.href.split('/').pop().split('.html')[0];
     const pageNumber = parseInt(currentFilename.substring(2));
 
     const isArtPage = window.location.pathname.includes('ap_htmls');
-    const maxPages = isArtPage ? 11 : 4; // Use 11 for art pages, 4 for design pages
+    const maxPages = isArtPage ? 11 : 4;
 
     const navigate = (offset) => {
         let newPageNumber = pageNumber + offset;
@@ -204,6 +201,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
+// GREATEROF VHVW
 function vhvw() {
     const artPhotos = document.getElementById('art-photos');
     const imageDirections = document.querySelector('.image-directions');
@@ -222,7 +221,7 @@ function vhvw() {
 
         imageDirections.style.top = `${topValue}px`;
 
-        imageDirections.style.fontSize = `${window.innerWidth * 0.01}px`; // Equivalent to 1vw
+        imageDirections.style.fontSize = `${window.innerWidth * 0.01}px`;
     }
 }
 vhvw();
@@ -283,10 +282,10 @@ function smoothScroll(targetY, duration = 1000) {
 }
 
 Math.easeInOutQuad = function (t, b, c, d) {
-    t /= d / 2;
-    if (t < 1) return c / 2 * t * t + b;
+    t/=d/2;
+    if (t<1) return c/2*t*t+b;
     t--;
-    return -c / 2 * (t * (t - 2) - 1) + b;
+    return -c/ 2 * (t* (t-2)-1)+b;
 };
 
 toTop.addEventListener("click", () => smoothScroll(0));
