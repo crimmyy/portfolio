@@ -491,6 +491,13 @@ input[type=checkbox]:checked + label {
   transform: translateY(0); /* Move to original position */
 }
 
+#design-photo-one {
+  width: 80vw;
+  margin: 3vh;
+  border-radius: 8px;
+  opacity: 0;
+  animation: fadeIn 3s ease forwards;
+}
 
 /* AP HTMLS*/
 .image-gallery {

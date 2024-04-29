@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
       });
     }, {
-      threshold: 0.5,
+      threshold: 0.2,
     });
   
     const hiddenImages = document.querySelectorAll('#design-photos img.hidden');
@@ -222,17 +222,13 @@ function vhvw() {
     }
 
     if (imageDirections) {
-        // Calculate 155% of viewport width and height
         const vh155 = window.innerHeight * 1.55;
         const vw155 = window.innerWidth * 1.8;
 
-        // Determine the smaller of the two and check if vh is favored
         let topValue = Math.min(vh155, vw155);
 
-        // Set top to the calculated value
         imageDirections.style.top = `${topValue}px`;
 
-        // Adjust font-size based on viewport width
         imageDirections.style.fontSize = `${window.innerWidth * 0.01}px`; // Equivalent to 1vw
     }
 }
